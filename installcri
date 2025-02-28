@@ -1,0 +1,34 @@
+sudo apt update
+sudo apt install -y wget tar
+echo 'deb http://download.opensuse.org/repositories/home:/alvistack/xUbuntu_24.10/ /' | sudo tee /etc/apt/sources.list.d/home:alvistack.list
+curl -fsSL https://download.opensuse.org/repositories/home:alvistack/xUbuntu_24.10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_alvistack.gpg > /dev/null
+sudo apt update
+sudo apt install cri-o
+sudo apt update
+sudo apt install fuse-overlayfs
+systemctl status crio.service
+journalctl -xeu crio.service
+sudo systemctl restart crio
+sudo apt update
+sudo apt install containernetworking-plugins
+
+/etc/cni/net.d/10-bridge.conf
+{
+    "cniVersion": "0.4.0",
+    "name": "bridge",
+    "type": "bridge",
+    "bridge": "cni0",
+    "isGateway": true,
+    "ipMasq": true,
+    "ipam": {
+        "type": "host-local",
+        "ranges": [
+            [{"subnet": "10.22.0.0/16"}]
+        ],
+        "routes": [
+            {"dst": "0.0.0.0/0"}
+        ]
+    }
+}
+sudo systemctl restart crio
+
