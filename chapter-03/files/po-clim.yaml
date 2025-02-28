@@ -2,6 +2,7 @@
 metadata:
   name: stress1
   namespace: crio
+  uid: stress1
 linux:
   cgroup_parent: pod.slice
   security_context:

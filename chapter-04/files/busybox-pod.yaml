@@ -2,3 +2,4 @@
 metadata:
   name: busybox
   namespace: crio
+  uid: busybox

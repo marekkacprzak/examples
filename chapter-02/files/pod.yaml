@@ -2,6 +2,7 @@
 metadata:
   name: busybox
   namespace: crio
+  uid: busybox-pod-1234
 linux:
   security_context:
     namespace_options:

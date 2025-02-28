@@ -2,3 +2,4 @@
 metadata:
   name: nginx2
   namespace: crio
+  uid: nginx2
