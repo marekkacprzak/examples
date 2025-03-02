@@ -1,2 +1,2 @@
 ---
-containerd_cri: false
+containerd_cri: true
