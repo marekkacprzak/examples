@@ -171,3 +171,65 @@ kubectl get csr
 kubectl certificate approve $(kubectl get csr --field-selector spec.signerName=kubernetes.io/kubelet-serving -o name)
 ---- serwer wskaznikow
 curl -Lo metrics-server.yaml $metrics_url
+kubectl create -f metrics-server.yaml
+
+kubectl get nodes
+
+NAME     STATUS   ROLES           AGE     VERSION
+host01   Ready    control-plane   8m15s   v1.28.0
+host02   Ready    control-plane   6m41s   v1.28.0
+host03   Ready    control-plane   4m57s   v1.28.0
+host04   Ready    <none>          7m28s   v1.28.0
+
+crictl ps
+
+CONTAINER           IMAGE               CREATED              STATE               NAME                        ATTEMPT             POD ID
+19c294f908687       f772ce9ba10a4       49 seconds ago       Running             engine-image-ei-acb7590c    0                   42f029f264316
+5bcb641a30c7d       9f4c1b666bd8c       About a minute ago   Running             longhorn-manager            0                   f1f80db89cb7e
+fec6b6dc9df04       73ddb59b21918       About a minute ago   Running             csi-node-driver-registrar   0                   c11ee6c42f9e9
+17ea4ea82a9ef       b2c0fe47b0708       2 minutes ago        Running             calico-csi                  0                   c11ee6c42f9e9
+68cf0f7d03bc9       50df0b2eb8ffe       2 minutes ago        Running             calico-node                 0                   713430bda23fc
+bbac137a458c2       2ec97bc370c17       2 minutes ago        Running             calico-typha                0                   11b131eb15988
+269108176286b       f6f496300a2ae       3 minutes ago        Running             kube-scheduler              2                   beb2889c11437
+20014f600627e       4be79c38a4bab       6 minutes ago        Running             kube-controller-manager     1                   50be2ea0d9c35
+12777356687e3       ea1030da44aa1       8 minutes ago        Running             kube-proxy                  0                   770487dbcd434
+c1c913c2652a4       bb5e0dde9054c       8 minutes ago        Running             kube-apiserver              0                   ab7b394bd5c2b
+46a80f7e5bda0       73deb9a3f7025       8 minutes ago        Running             etcd                        0                   e5aa3ed51b578
+
+kubectl get namespaces
+
+NAME              STATUS   AGE
+calico-system     Active   4m8s
+default           Active   9m2s
+ingress-nginx     Active   2m39s
+kube-node-lease   Active   9m2s
+kube-public       Active   9m2s
+kube-system       Active   9m2s
+longhorn-system   Active   3m46s
+tigera-operator   Active   4m26s
+
+kubectl -n kube-system get pods
+NAME                              READY   STATUS    RESTARTS        AGE
+coredns-5dd5756b68-2gx9d          1/1     Running   0               9m7s
+coredns-5dd5756b68-zvw6k          1/1     Running   0               9m7s
+etcd-host01                       1/1     Running   0               9m20s
+etcd-host02                       1/1     Running   0               7m49s
+etcd-host03                       1/1     Running   0               5m45s
+kube-apiserver-host01             1/1     Running   0               9m20s
+kube-apiserver-host02             1/1     Running   1 (6m32s ago)   7m39s
+kube-apiserver-host03             1/1     Running   1 (6m15s ago)   4m43s
+kube-controller-manager-host01    1/1     Running   1 (7m38s ago)   9m20s
+kube-controller-manager-host02    1/1     Running   1 (6m37s ago)   7m39s
+kube-controller-manager-host03    1/1     Running   0               5m15s
+kube-proxy-bq6vt                  1/1     Running   0               9m7s
+kube-proxy-d5bzm                  1/1     Running   0               7m50s
+kube-proxy-j5v4r                  1/1     Running   0               8m37s
+kube-proxy-rjxrw                  1/1     Running   0               6m6s
+kube-scheduler-host01             1/1     Running   2 (5m9s ago)    9m20s
+kube-scheduler-host02             1/1     Running   0               7m39s
+kube-scheduler-host03             1/1     Running   0               5m11s
+metrics-server-6db4d75b97-nbvzr   1/1     Running   0               97s
+
+kubectl run nginx --image=nginx
+
+kubectl get pods -o wide
