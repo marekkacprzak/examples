@@ -82,6 +82,15 @@
   throttle: 1
   when: k8s_initial_master not in ansible_facts['all_ipv4_addresses']
 
+- name: Configure KUBECONFIG for root
+  ansible.builtin.lineinfile:
+    path: /root/.bashrc
+    line: 'export KUBECONFIG=/etc/kubernetes/admin.conf'
+    create: yes
+    state: present
+    owner: root
+    group: root
+
 - name: collect kubelet serving csrs
   ansible.builtin.command:
     cmd: kubectl get csr --field-selector='spec.signerName=kubernetes.io/kubelet-serving' -o jsonpath='{.items[*].metadata.name}'
