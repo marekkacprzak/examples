@@ -1,11 +1,11 @@
 ---
 containerd_cri: true
-k8s_control_plane_endpoint: 192.168.61.10
-k8s_initial_master: 192.168.61.11
+k8s_control_plane_endpoint: 192.168.56.11
+k8s_initial_master: 192.168.56.11
 k8s_cluster_ips:
-  - 192.168.61.11
-  - 192.168.61.12
-  - 192.168.61.13
+  - 192.168.56.11
+  - 192.168.56.12
+  - 192.168.56.13
 
 k8s_allow_scheduling_masters: true
 

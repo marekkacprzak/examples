@@ -20,5 +20,5 @@ patch='
 curl --cacert $ca --cert $cert --key $key \
   -H "Content-Type: application/json-patch+json" \
   -X PATCH -d "$patch" \
-  https://192.168.61.10:6443/api/v1/nodes/host02/status
+  https://192.168.56.11:6443/api/v1/nodes/host02/status
 echo ""
