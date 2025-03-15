@@ -12,7 +12,7 @@ k8s_cluster_ips:
 
 k8s_allow_scheduling_masters: true
 k8s_prometheus: true
-k8s_postgresql_operator: install
+k8s_postgresql_operator: installnew
 k8s_postgresql_operator_namespace: todo
 
 todo_prefix: /

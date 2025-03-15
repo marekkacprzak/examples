@@ -25,8 +25,6 @@ CREATE DATABASE todo OWNER todo;
 SELECT usename, passwd FROM pg_shadow WHERE usename = 'todo';
 ALTER USER todo WITH PASSWORD 'NoweSuperHaslo';
 
-
-
 kubectl -n todo apply -f application.yaml
 
 kubectl -n todo apply -f service.yaml
@@ -37,4 +35,13 @@ curl http://10.109.145.98:5000
 
 kubectl drain --ignore-daemonsets --delete-emptydir-data host05
 kubectl delete  node host05
+
+kubectl label pod todo-db-0 -n todo spilo-role=master --overwrite
+kubectl label pod todo-db-1 -n todo spilo-role=replica --overwrite
+kubectl label pod todo-db-2 -n todo spilo-role=replica --overwrite
+kubectl rollout restart deployment postgres-operator
+
+kubectl exec -it todo-db-0 -n todo -- psql -U postgres -c "\du"
+kubectl get statefulsets -n todo
+
 

@@ -121,6 +121,20 @@
     - operator-service-account-rbac.yaml
     - postgres-operator.yaml
 
+- name: postgresql operator new version manifests
+  ansible.builtin.template:
+    src: postgresNew/{{ item }}.j2
+    dest: /etc/kubernetes/components/{{ item }}
+    mode: '0644'
+  when: 
+    - k8s_initial_master in ansible_facts['all_ipv4_addresses']
+    - k8s_postgresql_operator != "none"
+  loop:
+    - configmap.yaml
+    - operator-service-account-rbac-new.yaml
+    - postgres-operator-new.yaml
+    - api-service.yaml
+
 - name: configure kubectl
   ansible.builtin.copy:
     content: 'export KUBECONFIG=/etc/kubernetes/admin.conf'

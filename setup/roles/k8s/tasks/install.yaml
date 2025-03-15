@@ -227,7 +227,7 @@
     src: /etc/kubernetes/components/{{ item }}
   when: 
     - k8s_initial_master in ansible_facts['all_ipv4_addresses']
-    - k8s_postgresql_operator != "none"
+    - k8s_postgresql_operator == "install"
   retries: 10
   register: result
   until: result is successful
@@ -235,6 +235,21 @@
     - operatorconfiguration.crd.yaml
     - postgresql-operator-default-configuration.yaml
     - operator-service-account-rbac.yaml
+
+- name: setup postgresql new varsion operator
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /etc/kubernetes/admin.conf
+    src: /etc/kubernetes/components/{{ item }}
+  when: 
+    - k8s_initial_master in ansible_facts['all_ipv4_addresses']
+    - k8s_postgresql_operator == "installnew"
+  retries: 10
+  register: result
+  until: result is successful
+  loop:
+    - configmap.yaml
+    - operator-service-account-rbac-new.yaml
 
 - name: install postgresql operator
   kubernetes.core.k8s:
@@ -244,3 +259,15 @@
   when: 
     - k8s_initial_master in ansible_facts['all_ipv4_addresses']
     - k8s_postgresql_operator == "install"
+
+- name: install postgresql operator
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /etc/kubernetes/admin.conf
+    src: /etc/kubernetes/components/{{ item }}
+  when: 
+    - k8s_initial_master in ansible_facts['all_ipv4_addresses']
+    - k8s_postgresql_operator == "installnew"
+  loop:
+    - postgres-operator-new.yaml
+    - api-service.yaml
