@@ -44,4 +44,5 @@ kubectl rollout restart deployment postgres-operator
 kubectl exec -it todo-db-0 -n todo -- psql -U postgres -c "\du"
 kubectl get statefulsets -n todo
 
+kubectl logs todo-758c7878c-hz85d -n todo --previous
 
