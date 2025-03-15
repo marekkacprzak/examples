@@ -45,4 +45,42 @@ kubectl exec -it todo-db-0 -n todo -- psql -U postgres -c "\du"
 kubectl get statefulsets -n todo
 
 kubectl logs todo-758c7878c-hz85d -n todo --previous
+kubectl top pod todo-758c7878c-hz85d -n todo
+
+curl -v http://host01:5000/
+
+sed -i 's/\r$//' /opt/api-metrics.sh
+./api-metrics.sh
+sed -i 's/\r$//' /opt/api-server-metrics.sh
+/opt/api-server-metrics.sh
+curl http://host01:5000/metrics
+
+sed -i 's/\r$//' /opt/install-kube-prometheus.sh
+
+/opt/install-kube-prometheus.sh
+
+kubectl -n monitoring get pods
+
+kubectl -n monitoring describe prometheus
+
+kubectl -n monitoring get servicemonitor
+
+NAME                      AGE
+alertmanager-main         4m52s
+blackbox-exporter         4m52s
+coredns                   4m45s
+grafana                   4m46s
+kube-apiserver            4m45s
+kube-controller-manager   4m45s
+kube-scheduler            4m45s
+kube-state-metrics        4m45s
+kubelet                   4m45s
+node-exporter             4m45s
+prometheus-adapter        4m41s
+prometheus-k8s            4m42s
+prometheus-operator       4m40s
+
+kubectl -n todo apply -f /opt/rbac.yaml
+
+kubectl -n todo apply -f /opt/svc-mon.yaml
 
